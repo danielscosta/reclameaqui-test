@@ -1,0 +1,33 @@
+googleApiKey: ${GOOGLE_API_KEY:""}
+
+server:
+  port: 8080
+---
+management:
+  endpoints:
+    web:
+      exposure:
+        include: '*'
+---
+spring:
+  profiles:
+    active: ${ACTIVE_PROFILE:dev}
+  data.mongodb:
+    host: ${MONGO_HOST:mongodb}
+    port: ${MONGO_PORT:27017}
+    database: ${MONGO_DB:reclameaqui_db}
+    username: ${MONGO_USERNAME:root}
+    password: ${MONGO_PASSWORD:root}
+    authentication-database: ${MONGO_AUTH:admin}
+---
+spring:
+  profiles: dev
+---
+spring:
+  profiles: hom
+---
+spring:
+  profiles: prod
+
+
+

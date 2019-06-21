@@ -1,0 +1,24 @@
+version: '3'
+services:
+  mongodb:
+    image: mongo
+    ports:
+      - "27017:27017"
+    restart: always
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: root
+      MONGO_INITDB_ROOT_PASSWORD: root
+      MONGO_INITDB_DATABASE: reclameaqui_db
+    volumes:
+      - ./init_db/init.js:/docker-entrypoint-initdb.d/init.js
+
+  reclameaqui-test:
+    build: .
+    ports:
+      - "4000:4000"
+      - "8080:8080"
+    command: ["./wait-for-it.sh","-t","0","mongodb:27017", "--","java","-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=4000","-jar","reclameaqui-test.jar"]
+    depends_on:
+      - mongodb
+    links:
+      - mongodb
